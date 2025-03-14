@@ -623,18 +623,8 @@ SMODS.Joker {
       perishable_compat = true, --can it be perishable
       cost = 10,
       loc_vars = function(self, info_queue, card)
-      if next(SMODS.find_mod("Talisman")) then
-        info_queue[#info_queue+1] = {set = "Other", key = "talisman_warning", specific_vars = {}} 
-      end
       return { vars = { card.ability.extra.Xmult } }
     end,
-      
-     add_to_deck  = function(self, card, context)
-      if next(SMODS.find_mod("Talisman")) then
-        card:start_dissolve(nil, false)
-        return true
-      end
-     end,
   
      calculate = function(self, card, context)
       if context.joker_main then
@@ -645,7 +635,7 @@ SMODS.Joker {
           }
       end
       
-          if context.end_of_round and G.GAME.chips / G.GAME.blind.chips < 2 and context.cardarea == G.jokers then 
+          if context.end_of_round and to_big(G.GAME.chips) / to_big(G.GAME.blind.chips) < to_big(2) and context.cardarea == G.jokers then 
               local deletable_jokers = {}
               local _first_dissolve = nil
               play_sound('garb_surge', 1, 0.6)
@@ -1344,25 +1334,15 @@ SMODS.Joker {
       perishable_compat = true, --can it be perishable
       cost = 9,
       loc_vars = function(self, info_queue, card)
-      if next(SMODS.find_mod("Talisman")) then
-        info_queue[#info_queue+1] = {set = "Other", key = "talisman_warning", specific_vars = {}} 
-      end
       return { vars = { card.ability.extra.HP, card.ability.extra.money, card.ability.extra.maxHP} }
     end,
-      
-     add_to_deck = function(self, card, context)
-     if next(SMODS.find_mod("Talisman")) then
-      card:start_dissolve(nil, false)
-      return true
-     end
-    end,
-  
+        
      calculate = function(self, card, context)
       
       if context.end_of_round and context.cardarea == G.jokers then
         play_sound('garb_jimboss_hit', 1.3 + math.random()*0.1, 0.8)
-        card.ability.extra.HP = card.ability.extra.HP - G.GAME.chips
-        if card.ability.extra.HP <= 0 then
+        card.ability.extra.HP = to_big(card.ability.extra.HP) - to_big(G.GAME.chips)
+        if card.ability.extra.HP <= to_big(0) then
           play_sound('coin1')
           play_sound('garb_jimboss_defeat', 0.9 + math.random()*0.1, 0.8)
           card.ability.extra.maxHP = card.ability.extra.maxHP * card.ability.extra.scale
