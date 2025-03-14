@@ -1,4 +1,4 @@
 return {
 	["fukkireta"] = true,
-	["title"] = false,
+	["title"] = true,
 }
