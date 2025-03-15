@@ -108,5 +108,4 @@ SMODS.Achievement({
 		end
 	end
 }),
-]]--
 }
