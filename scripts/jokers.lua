@@ -1490,13 +1490,14 @@ SMODS.Joker {
         "{C:inactive}(Currently: {X:mult,C:white} X#2# {}{C:inactive} Mult)"
       }
     },
-    config = { extra = { Xmult = 1, Xmult_gain = 0.25 } },
+    config = { extra = { Xmult = 1, Xmult_gain = 0.2 } },
     loc_vars = function(self, info_queue, card)
       return { vars = { card.ability.extra.Xmult_gain, card.ability.extra.Xmult } }
     end,
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 9 },
+    pos = { x = 2, y = 5 },
+    soul_pos = { x = 3, y = 5 },
     cost = 8,
   
       unlocked = true, 
@@ -1506,11 +1507,12 @@ SMODS.Joker {
       perishable_compat = true, --can it be perishable
         
     calculate = function(self, card, context)
-    if context.blind then
+    if context.blind and not context.blueprint then
         archived = {}
             for k, v in pairs(G.playing_cards) do
                 if v.ability.set == 'Enhanced' then
                     archived[#archived+1] = v
+                    v.destroyme = true
                     v:start_dissolve(nil, _first_dissolve)
                     _first_dissolve = true
                     card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
@@ -1519,14 +1521,18 @@ SMODS.Joker {
         if #archived > 0 then
           card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Archived!"})
         end
+        local eval = function() return #archived > 0 or false end
+        juice_card_until(card, eval, true)
     end
 
     if context.joker_main then
+      if card.ability.extra.Xmult > 1 then
       return {
           Xmult_mod = card.ability.extra.Xmult,
           message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
           card = card
         }
+      end
     end
 
     if context.post_joker then
@@ -1543,11 +1549,19 @@ SMODS.Joker {
       if returned then
         card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Returned!"})
         archived = {}
+        returned = false
       end
     end
 
+    if context.destroying_card and context.destroying_card.destroyme then
+      return{
+          remove = true,
+      }
+  end
+
   end
 },
+
 
    -- LEGENDARIES
    
