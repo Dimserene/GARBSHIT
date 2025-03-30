@@ -3,6 +3,7 @@
 --- MOD_ID: GARBPACK
 --- MOD_AUTHOR: [garb]
 --- BADGE_COLOUR: 7E5A7D
+--- VERSION: 1.1.m
 --- MOD_DESCRIPTION: Garb's silly collection of good and bad thingamajigs.
 --- PREFIX: garb
 --- DEPENDENCIES: [Steamodded>=1.0.0~ALPHA-1418a]

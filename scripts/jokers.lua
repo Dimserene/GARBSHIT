@@ -1005,8 +1005,6 @@ SMODS.Joker {
           if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                       G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                       G.E_MANAGER:add_event(Event({
-                          trigger = 'before',
-                          delay = 0.0,
                           func = (function()
                                   local card = create_card('Spectral',G.consumeables, nil, nil, nil, nil, nil, 'sixth')
                                   card:add_to_deck()
@@ -1016,11 +1014,9 @@ SMODS.Joker {
                           end)}))
                       card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})
                   end
-          return true
       end
     end
-  },
-  
+  },  
   SMODS.Joker {
     key = 'equality',
     loc_txt = {
