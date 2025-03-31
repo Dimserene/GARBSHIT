@@ -1492,7 +1492,7 @@ SMODS.Joker {
     end,
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 5 },
+    pos = { x = 1, y = 9 },
     soul_pos = { x = 3, y = 5 },
     cost = 8,
   
